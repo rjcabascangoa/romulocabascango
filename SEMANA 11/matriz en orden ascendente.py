@@ -11,7 +11,7 @@ for row_position in range(rows):
         row.append(int(input(f"Introduce un elemento a la fila {row_position}: ")))
     matrix.append(row)
     print(row)'''
-matrix=[3,4,1,6,9,8,0,3,5,6]
+matrix=[3,4,1,6,9,8,0,3,5,6,7]
 print("Matriz de original",matrix)
 band=False
 while band==False:
