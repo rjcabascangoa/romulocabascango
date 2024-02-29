@@ -127,4 +127,4 @@ for ciudad in temperaturas:
             suma += dia['temp']
             promedio=suma/len(semana)
         print(suma)
-        print("ciudad",promedio)
+        print("Cuidad con temeraturas por dia",ciudad,"Promedio por semana",promedio)
