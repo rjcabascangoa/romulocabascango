@@ -1,0 +1,30 @@
+temperaturas = []
+for dia in range(1, 8):  # Iteramos del 1 al 7 (7 días de la semana)
+    temp = float(input(f"Ingrese la temperatura del día {dia}: "))
+    temperaturas.append(temp)
+    total = sum(temperaturas)
+promedio = total / len(temperaturas)
+print(f"El promedio semanal de temperatura es: {promedio:.2f}")
+class Clima:
+    def __init__(self):
+        self.temperaturas = []
+
+    def obtener_temperaturas(self):
+        for dia in range(1, 8):
+            temp = float(input(f"Ingrese la temperatura del día {dia}: "))
+            self.temperaturas.append(temp)
+
+    def calcular_promedio(self):
+        total = sum(self.temperaturas)
+        promedio = total / len(self.temperaturas)
+        return promedio
+
+# Crear una instancia de la clase Clima
+clima = Clima()
+
+# Obtener las temperaturas
+clima.obtener_temperaturas()
+
+# Calcular y mostrar el promedio semanal
+promedio = clima.calcular_promedio()
+print(f"El promedio semanal de temperatura es: {promedio:.2f}")
