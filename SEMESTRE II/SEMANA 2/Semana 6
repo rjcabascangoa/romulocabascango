@@ -1,0 +1,32 @@
+ Definición de la clase base Vehiculo
+class Vehiculo:
+    def __init__(self, marca, modelo):
+        self.marca = marca  # Atributo público
+        self.__modelo = modelo  # Atributo privado
+
+    def mostrar_marca(self):
+        print(f"Marca: {self.marca}")
+
+    def __mostrar_modelo(self):
+        print(f"Modelo: {self.__modelo}")  # Método privado
+
+    def describir(self):
+        self.__mostrar_modelo()  # Encapsulación: accediendo al método privado
+
+
+# Definición de la clase derivada Automovil
+class Automovil(Vehiculo):
+    def __init__(self, marca, modelo, color):
+        super().__init__(marca, modelo)
+        self.color = color
+
+    def describir(self):
+        super().describir()  # Llamada al método de la clase base
+        print(f"Color: {self.color}")
+
+
+# Crear una instancia de Automovil
+mi_auto = Automovil("Toyota", "Corolla", "Rojo")
+# Ejecución y demostración del programa
+print("Información del Automóvil:")
+mi_auto.describir()  # Llama al método describir() de la clase Automovil
