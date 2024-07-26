@@ -1,0 +1,168 @@
+import pygame
+import random
+import sys
+
+# Inicialización de Pygame
+pygame.init()
+
+# Configuración de la pantalla
+screen_width = 800
+screen_height = 600
+screen = pygame.display.set_mode((screen_width, screen_height))
+pygame.display.set_caption("Juego de Aviones Geométricos")
+
+# Colores
+WHITE = (255, 255, 255)
+RED = (255, 0, 0)
+BLUE = (0, 0, 255)
+BLACK = (0, 0, 0)
+YELLOW = (255, 255, 0)
+
+# Fuente para mostrar texto
+font = pygame.font.SysFont("Arial", 30)
+
+# Clase para el jugador
+class Player(pygame.sprite.Sprite):
+    def __init__(self):
+        super().__init__()
+        self.image = pygame.Surface((50, 50))
+        self.image.fill(BLUE)
+        self.rect = self.image.get_rect()
+        self.rect.centerx = screen_width // 2
+        self.rect.bottom = screen_height - 10
+        self.speed = 5
+        self.lives = 20
+        self.last_shot = pygame.time.get_ticks()
+        self.shoot_delay = 250
+
+    def update(self):
+        keys = pygame.key.get_pressed()
+        if keys[pygame.K_LEFT] and self.rect.left > 0:
+            self.rect.x -= self.speed
+        if keys[pygame.K_RIGHT] and self.rect.right < screen_width:
+            self.rect.x += self.speed
+
+    def shoot(self):
+        now = pygame.time.get_ticks()
+        if now - self.last_shot > self.shoot_delay:
+            self.last_shot = now
+            bullet = Bullet(self.rect.centerx, self.rect.top)
+            all_sprites.add(bullet)
+            bullets.add(bullet)
+
+# Clase para los enemigos
+class Enemy(pygame.sprite.Sprite):
+    def __init__(self):
+        super().__init__()
+        self.image = pygame.Surface((50, 50))
+        self.image.fill(RED)
+        self.rect = self.image.get_rect()
+        self.rect.x = random.randint(0, screen_width - self.rect.width)
+        self.rect.y = random.randint(-100, -40)
+        self.speedy = random.randint(1, 5)
+
+    def update(self):
+        self.rect.y += self.speedy
+        if self.rect.top > screen_height:
+            self.rect.x = random.randint(0, screen_width - self.rect.width)
+            self.rect.y = random.randint(-100, -40)
+            self.speedy = random.randint(1, 5)
+
+# Clase para las balas
+class Bullet(pygame.sprite.Sprite):
+    def __init__(self, x, y):
+        super().__init__()
+        self.image = pygame.Surface((10, 20))
+        self.image.fill(YELLOW)
+        self.rect = self.image.get_rect()
+        self.rect.centerx = x
+        self.rect.bottom = y
+        self.speedy = -10
+
+    def update(self):
+        self.rect.y += self.speedy
+        if self.rect.bottom < 0:
+            self.kill()
+
+# Configurar grupos de sprites
+all_sprites = pygame.sprite.Group()
+enemies = pygame.sprite.Group()
+bullets = pygame.sprite.Group()
+
+# Crear jugador
+player = Player()
+all_sprites.add(player)
+
+# Crear enemigos
+for i in range(8):
+    enemy = Enemy()
+    all_sprites.add(enemy)
+    enemies.add(enemy)
+
+# Función para mostrar el texto en pantalla
+def draw_text(surface, text, size, x, y):
+    font = pygame.font.Font(pygame.font.match_font('arial'), size)
+    text_surface = font.render(text, True, WHITE)
+    text_rect = text_surface.get_rect()
+    text_rect.midtop = (x, y)
+    surface.blit(text_surface, text_rect)
+
+# Bucle principal del juego
+running = True
+game_over = False
+
+while running:
+    if game_over:
+        screen.fill(BLACK)
+        draw_text(screen, "Game Over", 64, screen_width // 2, screen_height // 4)
+        draw_text(screen, "Presiona R para Revivir", 22, screen_width // 2, screen_height // 2)
+        draw_text(screen, "Presiona Q para Salir", 22, screen_width // 2, screen_height // 1.5)
+        pygame.display.flip()
+
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                running = False
+            elif event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_r:
+                    game_over = False
+                    player.lives = 20
+                    all_sprites.add(player)
+                elif event.key == pygame.K_q:
+                    running = False
+    else:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                running = False
+            elif event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_SPACE:
+                    player.shoot()
+
+        # Actualizar
+        all_sprites.update()
+
+        # Comprobar colisiones
+        hits = pygame.sprite.groupcollide(enemies, bullets, True, True)
+        for hit in hits:
+            enemy = Enemy()
+            all_sprites.add(enemy)
+            enemies.add(enemy)
+
+        hits = pygame.sprite.spritecollide(player, enemies, True)
+        for hit in hits:
+            player.lives -= 1
+            if player.lives == 0:
+                game_over = True
+            else:
+                enemy = Enemy()
+                all_sprites.add(enemy)
+                enemies.add(enemy)
+                pygame.time.wait(1000)  # Esperar un segundo después de perder una vida
+
+        # Dibujar / renderizar
+        screen.fill(BLACK)
+        all_sprites.draw(screen)
+        draw_text(screen, f'Vidas: {player.lives}', 18, screen_width // 2, 10)
+        pygame.display.flip()
+
+pygame.quit()
+sys.exit()
