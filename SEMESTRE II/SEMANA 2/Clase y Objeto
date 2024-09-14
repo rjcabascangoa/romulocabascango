@@ -1,0 +1,15 @@
+class Persona:
+    def __init__(self, nombre, edad):
+        self.nombre = nombre
+        self.edad = edad
+
+    def saludar(self):
+        print(f"Hola, mi nombre es {self.nombre} y tengo {self.edad} años.")
+
+# Crear objetos (instancias) de la clase Persona
+persona1 = Persona("Alice", 30)
+persona2 = Persona("Bob", 25)
+
+# Usar los métodos del objeto
+persona1.saludar()
+persona2.saludar()

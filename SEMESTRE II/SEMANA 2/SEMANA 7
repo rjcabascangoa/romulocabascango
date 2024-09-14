@@ -1,0 +1,24 @@
+class Persona:
+    def __init__(self, nombre, edad):
+        self.nombre = nombre
+        self.edad = edad
+        print(f"Persona creada: {self.nombre}, {self.edad} años")
+
+    def __del__(self):
+        print(f"Persona eliminada: {self.nombre}")
+
+# Uso de la clase Persona
+persona1 = Persona("Juan", 30)
+del persona1
+class Libro:
+    def __init__(self, titulo, autor):
+        self.titulo = titulo
+        self.autor = autor
+        print(f"Libro creado: '{self.titulo}' por {self.autor}")
+
+    def __del__(self):
+        print(f"Libro eliminado: '{self.titulo}'")
+
+# Uso de la clase Libro
+libro1 = Libro("Cien años de soledad", "Gabriel García Márquez")
+del libro1

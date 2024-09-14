@@ -1,0 +1,85 @@
+import pygame
+import sys
+
+# Inicialización de Pygame
+pygame.init()
+
+# Configuración de la pantalla
+screen = pygame.display.set_mode((800, 600))
+pygame.display.set_caption("Juego de Figuras Geométricas")
+
+# Colores
+WHITE = (255, 255, 255)
+RED = (255, 0, 0)
+BLUE = (0, 0, 255)
+
+# Posiciones y tamaños iniciales de las figuras
+square = pygame.Rect(100, 100, 50, 50)
+circle_pos = [400, 300]
+circle_radius = 25
+
+# Velocidades
+square_speed = [0, 0]
+circle_speed = [0, 0]
+
+# Función para manejar la pelea (colisión)
+def check_collision():
+    if square.colliderect(pygame.Rect(circle_pos[0] - circle_radius, circle_pos[1] - circle_radius, circle_radius * 2, circle_radius * 2)):
+        return True
+    return False
+
+# Bucle principal del juego
+running = True
+while running:
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            running = False
+        elif event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_LEFT:
+                square_speed[0] = -5
+            if event.key == pygame.K_RIGHT:
+                square_speed[0] = 5
+            if event.key == pygame.K_UP:
+                square_speed[1] = -5
+            if event.key == pygame.K_DOWN:
+                square_speed[1] = 5
+            if event.key == pygame.K_a:
+                circle_speed[0] = -5
+            if event.key == pygame.K_d:
+                circle_speed[0] = 5
+            if event.key == pygame.K_w:
+                circle_speed[1] = -5
+            if event.key == pygame.K_s:
+                circle_speed[1] = 5
+        elif event.type == pygame.KEYUP:
+            if event.key in [pygame.K_LEFT, pygame.K_RIGHT]:
+                square_speed[0] = 0
+            if event.key in [pygame.K_UP, pygame.K_DOWN]:
+                square_speed[1] = 0
+            if event.key in [pygame.K_a, pygame.K_d]:
+                circle_speed[0] = 0
+            if event.key in [pygame.K_w, pygame.K_s]:
+                circle_speed[1] = 0
+
+    # Mover las figuras
+    square.x += square_speed[0]
+    square.y += square_speed[1]
+    circle_pos[0] += circle_speed[0]
+    circle_pos[1] += circle_speed[1]
+
+    # Comprobar colisión
+    if check_collision():
+        print("¡Colisión! ¡Pelea!")
+
+    # Dibujar en la pantalla
+    screen.fill(WHITE)
+    pygame.draw.rect(screen, RED, square)
+    pygame.draw.circle(screen, BLUE, circle_pos, circle_radius)
+    pygame.display.flip()
+
+    # Controlar la velocidad del bucle del juego
+    pygame.time.Clock().tick(60)
+
+# Cerrar Pygame
+pygame.quit()
+sys.exit()

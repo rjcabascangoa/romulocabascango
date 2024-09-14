@@ -1,0 +1,66 @@
+# Tipos de datos en Python
+
+# Enteros
+numero_entero = 10
+print("Número entero:", numero_entero)
+
+# Flotantes
+numero_flotante = 10.5
+print("Número flotante:", numero_flotante)
+
+# Cadenas
+cadena_texto = "Hola, Mundo!"
+print("Cadena de texto:", cadena_texto)
+
+# Booleanos
+es_verdadero = True
+es_falso = False
+print("Booleano verdadero:", es_verdadero)
+print("Booleano falso:", es_falso)
+
+# Listas
+lista_numeros = [1, 2, 3, 4, 5]
+print("Lista de números:", lista_numeros)
+
+# Diccionarios
+diccionario_persona = {
+    "nombre": "Juan",
+    "edad": 30,
+    "ciudad": "Madrid"
+}
+print("Diccionario persona:", diccionario_persona)
+
+# Identificadores y convenciones de nomenclatura
+
+# Identificadores válidos
+nombre = "Ana"
+edad = 25
+ciudad_de_residencia = "Barcelona"
+
+# Identificadores no válidos (descomentar para ver los errores)
+# 1nombre = "Luis"
+# edad-usuario = 30
+# ciudad residencia = "Sevilla"
+
+# Ejemplo de función con convención de nomenclatura snake_case
+def calcular_area_rectangulo(base, altura):
+    return base * altura
+
+# Ejemplo de uso de la función
+base = 5
+altura = 10
+area = calcular_area_rectangulo(base, altura)
+print("Área del rectángulo:", area)
+
+# Ejemplo de clase con convención de nomenclatura CamelCase
+class Persona:
+    def __init__(self, nombre, edad):
+        self.nombre = nombre
+        self.edad = edad
+
+    def mostrar_informacion(self):
+        print(f"Nombre: {self.nombre}, Edad: {self.edad}")
+
+# Ejemplo de uso de la clase
+persona1 = Persona("Carlos", 28)
+persona1.mostrar_informacion()
