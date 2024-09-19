@@ -1,0 +1,13 @@
+from tkinter import *
+raiz=Tk()
+raiz.title("VENTANA JAVIER")
+raiz.resizable()
+#raiz.geometry("600x600")
+raiz.config(bg="green")
+miframe=Frame()
+miframe.pack(fill="both",expand="True")
+miframe.config(bg="red")
+miframe.config(width="650",height="350")
+miframe.config(relief="groove")
+miframe.config(cursor="pirate")
+raiz.mainloop()
