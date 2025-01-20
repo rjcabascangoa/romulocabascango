@@ -1,0 +1,94 @@
+####
+Este algoritmo verifica si los paréntesis, corchetes y llaves están balanceados en una expresión matemática.
+####
+sing System;
+using System.Collections.Generic;
+
+class Program
+{
+    static bool VerificarBalanceo(string expresion)
+    {
+        Stack<char> pila = new Stack<char>();
+
+        foreach (char c in expresion)
+        {
+            if (c == '(' || c == '[' || c == '{')
+            {
+                pila.Push(c);
+            }
+            else if (c == ')' || c == ']' || c == '}')
+            {
+                if (pila.Count == 0) return false;
+
+                char top = pila.Pop();
+                if ((c == ')' && top != '(') || 
+                    (c == ']' && top != '[') || 
+                    (c == '}' && top != '{'))
+                {
+                    return false;
+                }
+            }
+        }
+        return pila.Count == 0;
+    }
+
+    static void Main(string[] args)
+    {
+        string expresion = "{7+(8*5)-[(9-7)+(4+1)]}";
+        if (VerificarBalanceo(expresion))
+        {
+            Console.WriteLine("La fórmula está balanceada.");
+        }
+        else
+        {
+            Console.WriteLine("La fórmula no está balanceada.");
+        }
+    }
+}
+using System;
+
+class Program
+{
+    static void TorresDeHanoi(int n, string origen, string destino, string auxiliar)
+    {
+        if (n == 1)
+        {
+            Console.WriteLine($"Mover disco 1 de {origen} a {destino}");
+            return;
+        }
+
+        // Mover n-1 discos del origen al auxiliar
+        TorresDeHanoi(n - 1, origen, auxiliar, destino);
+
+        // Mover el disco restante al destino
+        Console.WriteLine($"Mover disco {n} de {origen} a {destino}");
+
+        // Mover los n-1 discos del auxiliar al destino
+        TorresDeHanoi(n - 1, auxiliar, destino, origen);
+    }
+
+    static void Main(string[] args)
+    {
+        int discos = 3; // Cambiar según el número de discos
+        Console.WriteLine("Solución para las Torres de Hanoi:");
+        TorresDeHanoi(discos, "Origen", "Destino", "Auxiliar");
+    }
+}
+############
+sa una pila para almacenar los paréntesis abiertos.
+Cuando encuentra un cierre, verifica que coincida con el último abierto.
+Al final, la pila debe estar vacía.
+Torres de Hanoi:
+
+El algoritmo mueve 
+𝑛
+−
+1
+n−1 discos de la torre origen a la auxiliar.
+Luego, mueve el disco más grande al destino.
+Finalmente, los 
+𝑛
+−
+1
+n−1 discos se trasladan de la auxiliar al destino.
+#######
