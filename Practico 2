@@ -1,0 +1,86 @@
+using System;
+using System.Collections.Generic;
+
+class Persona
+{
+    public string Nombre { get; set; }
+    public int Id { get; set; }
+
+    public Persona(string nombre, int id)
+    {
+        Nombre = nombre;
+        Id = id;
+    }
+
+    public override string ToString()
+    {
+        return $"ID: {Id}, Nombre: {Nombre}";
+    }
+}
+
+class Atraccion
+{
+    private Queue<Persona> filaEspera = new Queue<Persona>();
+    private List<Persona> asientosOcupados = new List<Persona>();
+    private const int capacidadMaxima = 30;
+
+    public void AgregarPersona(string nombre, int id)
+    {
+        if (asientosOcupados.Count < capacidadMaxima)
+        {
+            Persona nuevaPersona = new Persona(nombre, id);
+            filaEspera.Enqueue(nuevaPersona);
+            Console.WriteLine($"{nombre} ha sido agregado a la fila de espera.");
+        }
+        else
+        {
+            Console.WriteLine("La atracción está completa. No se pueden agregar más personas.");
+        }
+    }
+
+    public void AsignarAsientos()
+    {
+        while (filaEspera.Count > 0 && asientosOcupados.Count < capacidadMaxima)
+        {
+            Persona persona = filaEspera.Dequeue();
+            asientosOcupados.Add(persona);
+            Console.WriteLine($"Asignado asiento a: {persona.Nombre}");
+        }
+    }
+
+    public void MostrarReporte()
+    {
+        Console.WriteLine("\n--- Reporte de Asientos ---");
+        if (asientosOcupados.Count == 0)
+        {
+            Console.WriteLine("No hay asientos ocupados.");
+        }
+        else
+        {
+            foreach (var persona in asientosOcupados)
+            {
+                Console.WriteLine(persona);
+            }
+        }
+        Console.WriteLine($"Total de asientos ocupados: {asientosOcupados.Count}/{capacidadMaxima}");
+    }
+}
+
+class Program
+{
+    static void Main()
+    {
+        Atraccion atraccion = new Atraccion();
+        
+        // Simulación de registro de personas en la fila
+        atraccion.AgregarPersona("Carlos", 1);
+        atraccion.AgregarPersona("Ana", 2);
+        atraccion.AgregarPersona("Luis", 3);
+        
+        // Asignación de asientos en orden de llegada
+        atraccion.AsignarAsientos();
+        
+        // Mostrar el reporte final
+        atraccion.MostrarReporte();
+    }
+}
