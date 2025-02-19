@@ -1,0 +1,59 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+class Programa
+{
+    static void Main()
+    {
+        
+        HashSet<string> ciudadanos = new HashSet<string>();
+        for (int i = 1; i <= 500; i++)
+        {
+            ciudadanos.Add("Ciudadano Ecuatorianos " + i);
+        }
+
+      
+        HashSet<string> vacunadosPfizer = GenerarVacunados(ciudadanos, 75);
+
+        
+        HashSet<string> vacunadosAstraZeneca = GenerarVacunados(ciudadanos, 75);
+
+     
+        HashSet<string> noVacunados = new HashSet<string>(ciudadanos);
+        noVacunados.ExceptWith(vacunadosPfizer);
+        noVacunados.ExceptWith(vacunadosAstraZeneca);
+
+      
+        HashSet<string> vacunadosAmbas = new HashSet<string>(vacunadosPfizer);
+        vacunadosAmbas.IntersectWith(vacunadosAstraZeneca);
+
+        HashSet<string> soloPfizer = new HashSet<string>(vacunadosPfizer);
+        soloPfizer.ExceptWith(vacunadosAmbas);
+)
+        HashSet<string> soloAstraZeneca = new HashSet<string>(vacunadosAstraZeneca);
+        soloAstraZeneca.ExceptWith(vacunadosAmbas);
+
+        
+        Console.WriteLine($"Total ciudadanos vacunados ecuador: {ciudadanos.Count}");
+        Console.WriteLine($"No vacunados: {noVacunados.Count}");
+        Console.WriteLine($"Vacunados con ambas dosis: {vacunadosAmbas.Count}");
+        Console.WriteLine($"Vacunados solo con Pfizer: {soloPfizer.Count}");
+        Console.WriteLine($"Vacunados solo con AstraZeneca: {soloAstraZeneca.Count}");
+    }
+
+    static HashSet<string> GenerarVacunados(HashSet<string> ciudadanos, int cantidad)
+    {
+        Random random = new Random();
+        List<string> listaCiudadanos = ciudadanos.ToList();
+        HashSet<string> vacunados = new HashSet<string>();
+
+        while (vacunados.Count < cantidad)
+        {
+            string seleccionado = listaCiudadanos[random.Next(listaCiudadanos.Count)];
+            vacunados.Add(seleccionado);
+        }
+
+        return vacunados;
+    }
+}
