@@ -1,0 +1,64 @@
+using System;
+using System.Collections.Generic;
+
+class Traductor
+{
+    static Dictionary<string, string> diccionario = new Dictionary<string, string>
+    {
+        {"time", "tiempo"}, {"person", "persona"}, {"year", "año"}, {"way", "camino"},
+        {"day", "día"}, {"thing", "cosa"}, {"man", "hombre"}, {"world", "mundo"},
+        {"life", "vida"}, {"hand", "mano"}, {"part", "parte"}, {"child", "niño/a"},
+        {"eye", "ojo"}, {"woman", "mujer"}, {"place", "lugar"}, {"work", "trabajo"},
+        {"week", "semana"}, {"case", "caso"}, {"point", "punto"}, {"government", "gobierno"},
+        {"company", "empresa"}
+    };
+
+    static void Main()
+    {
+        while (true)
+        {
+            Console.WriteLine("\n1. Traducir una frase");
+            Console.WriteLine("2. Agregar nueva palabra");
+            Console.WriteLine("0. Salir");
+            Console.Write("Opción: ");
+            
+            string opcion = Console.ReadLine();
+            if (opcion == "0") break;
+            else if (opcion == "1") TraducirFrase();
+            else if (opcion == "2") AgregarPalabra();
+            else Console.WriteLine("Opción no válida.");
+        }
+    }
+
+    static void TraducirFrase()
+    {
+        Console.Write("Ingrese una frase: ");
+        string[] palabras = Console.ReadLine().ToLower().Split(' ');
+        
+        for (int i = 0; i < palabras.Length; i++)
+        {
+            if (diccionario.ContainsKey(palabras[i]))
+                palabras[i] = diccionario[palabras[i]];
+        }
+        
+        Console.WriteLine("Traducción: " + string.Join(" ", palabras));
+    }
+
+    static void AgregarPalabra()
+    {
+        Console.Write("Palabra en inglés: ");
+        string ingles = Console.ReadLine().ToLower();
+        Console.Write("Traducción en español: ");
+        string espanol = Console.ReadLine().ToLower();
+        
+        if (!diccionario.ContainsKey(ingles))
+        {
+            diccionario[ingles] = espanol;
+            Console.WriteLine("Palabra agregada.");
+        }
+        else
+        {
+            Console.WriteLine("La palabra ya existe.");
+        }
+    }
+}
