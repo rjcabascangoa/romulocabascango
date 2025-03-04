@@ -10,14 +10,21 @@ class Program
         int opcion;
         do
         {
-            Console.WriteLine("\n--- Torneo de Fútbol ---");
-            Console.WriteLine("1. Agregar equipo");
+            Console.WriteLine("\n Práctico Nº3");
+            Console.WriteLine("Alumno: Romulo Cabascango");
+            Console.WriteLine("Materia: Estructura de Datos");
+            Console.WriteLine("\n--****- Torneo de Fútbol --***-");
+            Console.WriteLine("1. Ingresar el equipo");
             Console.WriteLine("2. Agregar jugador a un equipo");
-            Console.WriteLine("3. Mostrar equipos y jugadores");
+            Console.WriteLine("3. Mostrar los equipos y jugadores");
             Console.WriteLine("4. Salir");
             Console.Write("Seleccione una opción: ");
             
-            opcion = int.Parse(Console.ReadLine());
+            if (!int.TryParse(Console.ReadLine(), out opcion))
+            {
+                Console.WriteLine("Entrada no válida. Intente de nuevo.");
+                continue;
+            }
             Console.Clear();
             
             switch (opcion)
@@ -32,10 +39,10 @@ class Program
                     MostrarEquipos();
                     break;
                 case 4:
-                    Console.WriteLine("Saliendo del programa...");
+                    Console.WriteLine("EXIT");
                     break;
                 default:
-                    Console.WriteLine("Opción no válida. Intente de nuevo.");
+                    Console.WriteLine("Error. Intente de nuevo.");
                     break;
             }
         } while (opcion != 4);
@@ -45,14 +52,14 @@ class Program
     {
         Console.Write("Ingrese el nombre del equipo: ");
         string equipo = Console.ReadLine();
-        if (!torneo.ContainsKey(equipo))
+        if (!string.IsNullOrWhiteSpace(equipo) && !torneo.ContainsKey(equipo))
         {
             torneo[equipo] = new List<string>();
             Console.WriteLine("Equipo agregado.");
         }
         else
         {
-            Console.WriteLine("El equipo ya existe.");
+            Console.WriteLine("El equipo ya existe o el nombre no es válido.");
         }
     }
 
@@ -64,24 +71,44 @@ class Program
         {
             Console.Write("Ingrese el nombre del jugador: ");
             string jugador = Console.ReadLine();
-            torneo[equipo].Add(jugador);
-            Console.WriteLine("Jugador agregado.");
+            if (!string.IsNullOrWhiteSpace(jugador))
+            {
+                torneo[equipo].Add(jugador);
+                Console.WriteLine("Jugador agregado.");
+            }
+            else
+            {
+                Console.WriteLine("Nombre del jugador no válido.");
+            }
         }
         else
         {
-            Console.WriteLine("El equipo no existe. Agregue el equipo primero.");
+            Console.WriteLine("Agregue el equipo primero.");
         }
     }
 
     static void MostrarEquipos()
     {
+        if (torneo.Count == 0)
+        {
+            Console.WriteLine("No hay equipos registrados.");
+            return;
+        }
+
         Console.WriteLine("\nEquipos y sus jugadores:");
         foreach (var equipo in torneo)
         {
-            Console.WriteLine($"Equipo: {equipo.Key}");
-            foreach (var jugador in equipo.Value)
+            Console.WriteLine($"\nEquipo: {equipo.Key}");
+            if (equipo.Value.Count == 0)
             {
-                Console.WriteLine($"  - {jugador}");
+                Console.WriteLine("  (Sin jugadores registrados)");
+            }
+            else
+            {
+                foreach (var jugador in equipo.Value)
+                {
+                    Console.WriteLine($"  - {jugador}");
+                }
             }
         }
     }
