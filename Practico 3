@@ -1,0 +1,88 @@
+using System;
+using System.Collections.Generic;
+
+class Program
+{
+    static Dictionary<string, List<string>> torneo = new Dictionary<string, List<string>>();
+
+    static void Main()
+    {
+        int opcion;
+        do
+        {
+            Console.WriteLine("\n--- Torneo de Fútbol ---");
+            Console.WriteLine("1. Agregar equipo");
+            Console.WriteLine("2. Agregar jugador a un equipo");
+            Console.WriteLine("3. Mostrar equipos y jugadores");
+            Console.WriteLine("4. Salir");
+            Console.Write("Seleccione una opción: ");
+            
+            opcion = int.Parse(Console.ReadLine());
+            Console.Clear();
+            
+            switch (opcion)
+            {
+                case 1:
+                    AgregarEquipo();
+                    break;
+                case 2:
+                    AgregarJugador();
+                    break;
+                case 3:
+                    MostrarEquipos();
+                    break;
+                case 4:
+                    Console.WriteLine("Saliendo del programa...");
+                    break;
+                default:
+                    Console.WriteLine("Opción no válida. Intente de nuevo.");
+                    break;
+            }
+        } while (opcion != 4);
+    }
+
+    static void AgregarEquipo()
+    {
+        Console.Write("Ingrese el nombre del equipo: ");
+        string equipo = Console.ReadLine();
+        if (!torneo.ContainsKey(equipo))
+        {
+            torneo[equipo] = new List<string>();
+            Console.WriteLine("Equipo agregado.");
+        }
+        else
+        {
+            Console.WriteLine("El equipo ya existe.");
+        }
+    }
+
+    static void AgregarJugador()
+    {
+        Console.Write("Ingrese el nombre del equipo: ");
+        string equipo = Console.ReadLine();
+        if (torneo.ContainsKey(equipo))
+        {
+            Console.Write("Ingrese el nombre del jugador: ");
+            string jugador = Console.ReadLine();
+            torneo[equipo].Add(jugador);
+            Console.WriteLine("Jugador agregado.");
+        }
+        else
+        {
+            Console.WriteLine("El equipo no existe. Agregue el equipo primero.");
+        }
+    }
+
+    static void MostrarEquipos()
+    {
+        Console.WriteLine("\nEquipos y sus jugadores:");
+        foreach (var equipo in torneo)
+        {
+            Console.WriteLine($"Equipo: {equipo.Key}");
+            foreach (var jugador in equipo.Value)
+            {
+                Console.WriteLine($"  - {jugador}");
+            }
+        }
+    }
+}
