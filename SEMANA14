@@ -1,0 +1,182 @@
+using System;
+using System.Collections.Generic;
+
+namespace ArbolBinario
+{
+    
+    class NodoArbol
+    {
+        public int Numero;  
+        public NodoArbol Izq; 
+        public NodoArbol Der;  
+
+        public NodoArbol(int numero)
+        {
+            Numero = numero;
+            Izq = null;  
+            Der = null;
+        }
+    }
+
+    class Arbol
+    {
+        public NodoArbol Inicio;  
+
+        
+        public void AgregarNumero(int numero)
+        {
+            Inicio = AgregarRecursivo(Inicio, numero);
+        }
+
+     
+        NodoArbol AgregarRecursivo(NodoArbol actual, int numero)
+        {
+            if (actual == null)  
+            {
+                return new NodoArbol(numero);
+            }
+            if (numero < actual.Numero)
+            {
+                actual.Izq = AgregarRecursivo(actual.Izq, numero);
+            }
+           
+            else if (numero > actual.Numero)
+            {
+                actual.Der = AgregarRecursivo(actual.Der, numero);
+            }
+
+            return actual;
+        }
+
+        public void Preorden()
+        {
+            Console.Write("Recorrido Preorden: ");
+            PreordenRec(Inicio);
+        }
+
+        void PreordenRec(NodoArbol actual)
+        {
+            if (actual != null)
+            {
+                Console.Write(actual.Numero + " ");  
+                PreordenRec(actual.Izq);  
+                PreordenRec(actual.Der);  
+            }
+        }
+
+        public void Inorden()
+        {
+            Console.Write("Recorrido Inorden: ");
+            InordenRec(Inicio);
+        }
+
+        void InordenRec(NodoArbol actual)
+        {
+            if (actual != null)
+            {
+                InordenRec(actual.Izq);  
+                Console.Write(actual.Numero + " ");  
+                InordenRec(actual.Der);  
+            }
+        }
+
+        public void Postorden()
+        {
+            Console.Write("Recorrido Postorden: ");
+            PostordenRec(Inicio);
+        }
+
+        void PostordenRec(NodoArbol actual)
+        {
+            if (actual != null)
+            {
+                PostordenRec(actual.Izq);  // Primero izquierda
+                PostordenRec(actual.Der);  // Luego derecha
+                Console.Write(actual.Numero + " ");  // Al final raíz
+            }
+        }
+
+        public bool Existe(int numero)
+        {
+            return BuscarRecursivo(Inicio, numero);
+        }
+
+        bool BuscarRecursivo(NodoArbol actual, int numero)
+        {
+            if (actual == null) return false;  
+            if (numero == actual.Numero) return true;  
+
+            if (numero < actual.Numero)
+                return BuscarRecursivo(actual.Izq, numero);  
+            else
+                return BuscarRecursivo(actual.Der, numero);  
+        }
+    }
+
+    class Programa
+    {
+        static void Main(string[] args)
+        {
+            Arbol arbolito = new Arbol(); 
+            int opcion;
+
+            do
+            {
+                
+                Console.WriteLine("\n*********** MENÚ DEL ARBOLITO *******");
+                Console.WriteLine("1. Ingesar Numero");
+                Console.WriteLine("2. Mostrar el Orden");
+                Console.WriteLine("3. Mostrar el Inorden");
+                Console.WriteLine("4. Mostrar Postorden");
+                Console.WriteLine("5. Buscar el número");
+                Console.WriteLine("6. Salir o EXIT");
+                Console.Write("EligIR ");
+
+                opcion = Convert.ToInt32(Console.ReadLine());  
+
+                switch (opcion)
+                {
+                    case 1:
+                        Console.Write("Escribe un número: ");
+                        int num = Convert.ToInt32(Console.ReadLine());
+                        arbolito.AgregarNumero(num);  
+                        break;
+
+                    case 2:
+                        arbolito.Preorden();  
+                        Console.WriteLine();
+                        break;
+
+                    case 3:
+                        arbolito.Inorden();  
+                        Console.WriteLine();
+                        break;
+
+                    case 4:
+                        arbolito.Postorden();  
+                        Console.WriteLine();
+                        break;
+
+                    case 5:
+                        Console.Write("Número a buscar: ");
+                        int buscado = Convert.ToInt32(Console.ReadLine());
+                        bool existe = arbolito.Existe(buscado);
+                        Console.WriteLine(existe ? "Sí está" : "No está");  
+                        break;
+
+                    case 6:
+                        Console.WriteLine("Adiós!");
+                        break;
+
+                    default:
+                        Console.WriteLine("Opción no válida :(");
+                        break;
+                }
+
+                Console.ReadKey();  
+                Console.Clear();  
+
+            } while (opcion != 6);
+        }
+    }
+}
