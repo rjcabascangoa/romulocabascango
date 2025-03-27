@@ -1,0 +1,72 @@
+using System;
+
+class GrafoMetro
+{
+    static void Main()
+    {
+        // Definir las estaciones (nodos)
+        string[] estaciones = { "Javier", "Rómulo", "Katty", "Azul" };
+        
+        
+        int[,] matrizAdyacencia = new int[4,4];
+        
+        // Establecer conexiones (aristas)
+        // Javier (0) ↔ Rómulo (1)
+        matrizAdyacencia[0, 1] = 1;
+        matrizAdyacencia[1, 0] = 1;
+        
+        // Rómulo (1) ↔ Katty (2)
+        matrizAdyacencia[1, 2] = 1;
+        matrizAdyacencia[2, 1] = 1;
+        
+        // Katty (2) ↔ Azul (3)
+        matrizAdyacencia[2, 3] = 1;
+        matrizAdyacencia[3, 2] = 1;
+        
+        // Mostrar información del grafo
+        Console.WriteLine("REPRESENTACIÓN DEL METRO COMO GRAFO\n");
+        
+        // Mostrar estaciones
+        Console.WriteLine("Estaciones (nodos):");
+        for(int i = 0; i < estaciones.Length; i++)
+        {
+            Console.WriteLine($"{i}. {estaciones[i]}");
+        }
+        
+        // Mostrar conexiones
+        Console.WriteLine("\nConexiones (aristas):");
+        Console.WriteLine("- Javier ↔ Rómulo");
+        Console.WriteLine("- Rómulo ↔ Katty");
+        Console.WriteLine("- Katty ↔ Azul");
+        
+        // Mostrar matriz de adyacencia
+        Console.WriteLine("\nMatriz de adyacencia:\n");
+        
+        // Encabezados de columnas
+        Console.Write("       ");
+        for(int i = 0; i < estaciones.Length; i++)
+        {
+            Console.Write($"{estaciones[i],-7}");
+        }
+        Console.WriteLine();
+        
+        // Filas de la matriz
+        for(int i = 0; i < estaciones.Length; i++)
+        {
+            Console.Write($"{estaciones[i],-7}");
+            for(int j = 0; j < estaciones.Length; j++)
+            {
+                Console.Write($"{matrizAdyacencia[i,j],-7}");
+            }
+            Console.WriteLine();
+        }
+        
+        // Información adicional
+        Console.WriteLine("\nLeyenda:");
+        Console.WriteLine("0 = No hay conexión");
+        Console.WriteLine("1 = Estaciones conectadas");
+        
+        Console.WriteLine("\nEste grafo no dirigido representa un segmento");
+        Console.WriteLine("de la red del Metro de la Ciudad de México");
+    }
+}
